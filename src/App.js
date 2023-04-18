@@ -1,10 +1,48 @@
-import logo from "./logo.svg";
+import { useState } from "react";
+import Header from "./Components/Header";
+import MoleContainer from "./Components/MoleContainer";
 import "./App.css";
-import React from "react";
+
 function App() {
+  let [playing, setPlaying] = useState(false);
+  let [score, setScore] = useState(0);
+  let [paused, setPaused] = useState(false);
+
+  const createMoleHill = () => {
+    let hills = [];
+    for (let i = 0; i < 9; i++) {
+      hills.push(<MoleContainer key={i} score={score} setScore={setScore} />);
+    }
+
+    return <div>{hills}</div>;
+  };
+
+  const handleStart = () => {
+    setPlaying(!playing);
+    setPaused(false);
+  };
+
   return (
     <div>
-      <h1>Hello World</h1>
+      <Header
+        score={score}
+        paused={paused}
+        setPaused={setPaused}
+        setPlaying={setPlaying}
+        setScore={setScore}
+      />
+      <div className="moles">
+        {playing ? (
+          createMoleHill()
+        ) : (
+          <img
+            className="splash"
+            src="./images/splash.png"
+            alt="Mole Splash"
+            onClick={handleStart}
+          />
+        )}
+      </div>
     </div>
   );
 }
